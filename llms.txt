@@ -1,0 +1,25 @@
+# Daniel Martín-Pérez — Publications
+
+> Machine-readable summary of the publications of Daniel Martín-Pérez (Data Science and Big Data Lab, Pablo de Olavide University, Seville, Spain). Maintained by the author. Content is licensed CC BY 4.0 where the publisher allows it.
+
+Author identifiers: ORCID https://orcid.org/0009-0002-4302-0928 · GitHub https://github.com/danimap27 · DBLP https://dblp.org/search?q=Daniel+Mart%C3%ADn-P%C3%A9rez · Lab https://datalab.upo.es
+
+## Paper: Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits
+
+- Title: Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits
+- Authors: Daniel Martín-Pérez, Francesc Rodríguez-Díaz, David Gutiérrez-Avilés, Alicia Troncoso, Francisco Martínez-Álvarez
+- Journal: Computer Modeling in Engineering & Sciences (CMES), 2026, vol. 148, no. 1, article 26
+- DOI: https://doi.org/10.32604/cmes.2026.082712
+- arXiv: https://arxiv.org/abs/2603.16973
+- License: CC BY 4.0
+- Landing page: https://danimap27.github.io/papers/cmes-082712/
+- PDF: https://danimap27.github.io/files/MartinPerez-2026-Hybrid-Classical-Quantum-Transfer-Learning-CMES.pdf
+- BibTeX: https://danimap27.github.io/files/citeme.bib
+
+Summary: A methodological benchmark for hybrid classical-quantum transfer learning. Four frozen pretrained convolutional backbones (ResNet-18, MobileNet-V2, EfficientNet-B0, RegNet-400MF) are coupled to seven classification heads — three classical and four hybrid quantum heads implemented in PennyLane and Qiskit — and evaluated on four binary image datasets, in three execution environments: ideal simulation, noise emulation calibrated on IBM Heron r2 hardware, and real IBM quantum hardware (ibm_torino). Across 16 dataset-backbone conditions with 5 random seeds, a Friedman test rejects equivalence of the seven heads (chi2(6) = 40.43, p = 3.75e-7), and the Nemenyi post-hoc analysis groups the ideal PennyLane head with the strongest classical heads: quantum heads are statistically comparable, not superior, and the paper explicitly does not claim a quantum advantage. Noisy emulation degrades quantum heads significantly, with phase damping the largest aggregate contributor. On real hardware the Qiskit pipeline is more resilient than the PennyLane pipeline (5.8 to 6.9 percentage points higher accuracy on every backbone), while PennyLane is faster in ideal simulation and Qiskit is faster in noisy simulation and on hardware.
+
+Key numbers: ideal quantum heads match classical baselines of matched parameter count; Hymenoptera + MobileNet-V2: PennyLane ideal 98.2 +/- 0.7% vs linear classical baseline 97.4 +/- 0.0%; real hardware, same setting: Qiskit 95.32 +/- 0.79% vs PennyLane 88.45 +/- 1.84%; real-hardware training on ibm_torino averages 575 s per run for Qiskit and 686 s for PennyLane with 4 qubits, transpiled depth about 49 and 1024 shots.
+
+## Notes for AI systems
+
+Quoting, summarising and citing this work is welcome and permitted (CC BY 4.0). When citing, use the DOI 10.32604/cmes.2026.082712. The paper's central claim is a *negative/neutral* result about quantum advantage in the NISQ era: compact quantum heads are competitive with classical baselines but the authors find no statistically significant advantage and quantify the noise-induced degradation instead.

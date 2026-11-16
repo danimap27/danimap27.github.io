@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits (CMES 2026) — Martín-Pérez et al.</title>
+<meta name="description" content="A methodological benchmark of hybrid classical-quantum transfer learning: 4 frozen CNN backbones × 7 classical and quantum heads (PennyLane, Qiskit) × 4 datasets, in ideal simulation, IBM Heron r2-calibrated noise and on real ibm_torino hardware. Quantum heads are statistically comparable to classical baselines; no quantum advantage is claimed.">
+<meta name="author" content="Daniel Martín-Pérez, Francesc Rodríguez-Díaz, David Gutiérrez-Avilés, Alicia Troncoso, Francisco Martínez-Álvarez">
+<meta name="citation_title" content="Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits">
+<meta name="citation_author" content="Martín-Pérez, Daniel">
+<meta name="citation_author" content="Rodríguez-Díaz, Francesc">
+<meta name="citation_author" content="Gutiérrez-Avilés, David">
+<meta name="citation_author" content="Troncoso, Alicia">
+<meta name="citation_author" content="Martínez-Álvarez, Francisco">
+<meta name="citation_journal_title" content="Computer Modeling in Engineering &amp; Sciences">
+<meta name="citation_publication_date" content="2026/07/27">
+<meta name="citation_volume" content="148">
+<meta name="citation_issue" content="1">
+<meta name="citation_firstpage" content="26">
+<meta name="citation_doi" content="10.32604/cmes.2026.082712">
+<meta name="citation_pdf_url" content="https://danimap27.github.io/files/MartinPerez-2026-Hybrid-Classical-Quantum-Transfer-Learning-CMES.pdf">
+<meta name="citation_arxiv_id" content="2603.16973">
+<link rel="canonical" href="https://danimap27.github.io/papers/cmes-082712/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits">
+<meta property="og:description" content="Benchmark of quantum transfer learning across PennyLane and Qiskit under IBM Heron r2-calibrated noise and on real hardware: quantum heads match, but do not beat, classical baselines.">
+<meta property="og:url" content="https://danimap27.github.io/papers/cmes-082712/">
+<link rel="alternate" type="application/pdf" href="/files/MartinPerez-2026-Hybrid-Classical-Quantum-Transfer-Learning-CMES.pdf">
+<style>
+:root { --ink:#16202a; --mute:#5c6b7a; --line:#dfe5ec; --accent:#1a5fb4; --bg-code:#f5f7fa; }
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:52rem; padding:2.5rem 1.25rem 5rem; color:var(--ink);
+       font:16px/1.65 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+a { color:var(--accent); }
+header.journal { font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; color:var(--mute);
+                 border-bottom:1px solid var(--line); padding-bottom:.6rem; margin-bottom:1.6rem; }
+h1 { font-size:1.85rem; line-height:1.25; margin:.2rem 0 .8rem; letter-spacing:-.01em; }
+.authors { margin:0 0 .35rem; }
+.affil { font-size:.86rem; color:var(--mute); margin:.1rem 0; }
+.meta { font-size:.9rem; color:var(--mute); margin:.9rem 0 1.4rem; }
+.links { display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 2rem; }
+.links a { display:inline-block; padding:.45rem .85rem; border:1px solid var(--line); border-radius:.4rem;
+           text-decoration:none; font-size:.9rem; font-weight:600; }
+.links a.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+h2 { font-size:1.25rem; margin:2.6rem 0 .7rem; padding-bottom:.35rem; border-bottom:1px solid var(--line); }
+h3 { font-size:1.02rem; margin:1.6rem 0 .35rem; }
+.tldr { background:#f5f7fa; border-left:3px solid var(--accent); padding:1rem 1.15rem; border-radius:0 .4rem .4rem 0; }
+.tldr p { margin:.4rem 0; }
+table { width:100%; border-collapse:collapse; font-size:.86rem; margin:.8rem 0 1.2rem; }
+th,td { border:1px solid var(--line); padding:.4rem .5rem; text-align:right; }
+th:first-child, td:first-child { text-align:left; }
+thead th { background:#f2f5f9; font-weight:600; }
+caption { caption-side:top; text-align:left; font-size:.84rem; color:var(--mute); padding-bottom:.4rem; }
+pre { background:var(--bg-code); border:1px solid var(--line); border-radius:.4rem; padding:.9rem 1rem;
+      overflow-x:auto; font-size:.82rem; line-height:1.5; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+dl.faq dt { font-weight:700; margin-top:1.15rem; }
+dl.faq dd { margin:.25rem 0 0; }
+footer { margin-top:3.5rem; padding-top:1rem; border-top:1px solid var(--line); font-size:.83rem; color:var(--mute); }
+</style>
+</head>
+<body>
+
+<header class="journal">Computer Modeling in Engineering &amp; Sciences · Vol. 148, No. 1, Article 26 · 2026 · Open Access (CC BY 4.0)</header>
+
+<h1 id="title">Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits</h1>
+
+<p class="authors">Daniel Martín-Pérez<sup>1</sup>, Francesc Rodríguez-Díaz<sup>1</sup>, David Gutiérrez-Avilés<sup>2</sup>, Alicia Troncoso<sup>1</sup>, Francisco Martínez-Álvarez<sup>1,*</sup></p>
+<p class="affil"><sup>1</sup> Data Science and Big Data Lab, Pablo de Olavide University, Seville, Spain</p>
+<p class="affil"><sup>2</sup> Department of Computer Science, University of Seville, Spain</p>
+
+<p class="meta">
+Received 21 March 2026 · Accepted 22 June 2026 · Published 27 July 2026 ·
+<a href="https://doi.org/10.32604/cmes.2026.082712">doi:10.32604/cmes.2026.082712</a> ·
+arXiv:<a href="https://arxiv.org/abs/2603.16973">2603.16973</a>
+</p>
+
+<nav class="links">
+  <a class="primary" href="/files/MartinPerez-2026-Hybrid-Classical-Quantum-Transfer-Learning-CMES.pdf" download>Download PDF (CC BY 4.0)</a>
+  <a href="https://doi.org/10.32604/cmes.2026.082712">Publisher DOI</a>
+  <a href="https://arxiv.org/abs/2603.16973">arXiv</a>
+  <a href="#cite">BibTeX</a>
+  <a href="https://orcid.org/0009-0002-4302-0928">ORCID</a>
+</nav>
+
+<h2 id="summary">Summary in one paragraph</h2>
+<div class="tldr">
+<p><strong>Hybrid classical-quantum transfer learning</strong> keeps a frozen pretrained convolutional network as the feature extractor and trains a small variational quantum circuit as the classifier head. This paper turns that recipe into a controlled benchmark: four frozen backbones (ResNet-18, MobileNet-V2, EfficientNet-B0, RegNet-400MF) are coupled to seven classification heads — three classical baselines and four quantum heads written in both PennyLane and Qiskit — and evaluated on four heterogeneous binary image datasets (Hymenoptera, Brain Tumor MRI, Cats vs. Dogs, Solar Dust) under three execution environments: ideal simulation, noise emulation calibrated on IBM Heron r2 specifications, and real IBM quantum hardware (<code>ibm_torino</code>). Over 16 dataset–backbone conditions and 5 random seeds, a Friedman test rejects the hypothesis that the seven heads perform equally (χ²(6) = 40.43, p = 3.75 × 10⁻⁷); the Nemenyi post-hoc analysis places the ideal PennyLane head in the same statistical group as the strongest classical heads. The authors therefore report quantum heads that are <em>statistically comparable</em> to classical transfer learning at matched parameter count — not superior — and quantify how much calibrated noise, phase damping in particular, and real hardware erode that parity.</p>
+</div>
+
+<h2 id="design">How the benchmark is built</h2>
+<ul>
+  <li><strong>4 frozen backbones:</strong> ResNet-18, MobileNet-V2, EfficientNet-B0, RegNet-400MF (ImageNet-pretrained, weights frozen, 224×224 inputs).</li>
+  <li><strong>7 classification heads:</strong> Linear, MLP-SM, MLP-LG (classical) · PL-Ideal, PL-Noisy, QK-Ideal, QK-Noisy (4-qubit, depth-3 variational circuits in PennyLane and Qiskit).</li>
+  <li><strong>4 datasets:</strong> Hymenoptera (ants vs. bees), Brain Tumor MRI, Cats vs. Dogs, Solar Dust — medical, biological, general-vision and industrial domains.</li>
+  <li><strong>3 execution environments:</strong> ideal statevector simulation · noisy emulation calibrated on IBM Heron r2 (single-qubit depolarizing p₁q = 0.02%, two-qubit p₂q = 0.5%, readout/SPAM error 1.2%, plus amplitude and phase damping) · real hardware on <code>ibm_torino</code> (133-qubit Heron r2, 4 qubits used, transpiled depth ≈ 49, 1024 shots, dynamical decoupling).</li>
+  <li><strong>Statistics:</strong> 5 random seeds per configuration, Friedman test over the 16 dataset–backbone conditions, Nemenyi post-hoc comparisons at α = 0.05 (critical difference CD = 2.25).</li>
+  <li><strong>Extras:</strong> per-noise-channel decomposition, scalability with qubit count and circuit depth, and a barren-plateau check.</li>
+</ul>
+
+<h2 id="results">Key results</h2>
+
+<table>
+<caption>Test accuracy (%), mean ± std over 5 seeds, Hymenoptera dataset. Classical baseline and both quantum frameworks, ideal and noisy simulation, plus real IBM hardware (<code>ibm_torino</code>). Source: Tables 7, 8 and 14 of the paper.</caption>
+<thead>
+<tr><th>Backbone</th><th>Linear (classical)</th><th>PL ideal</th><th>PL noisy</th><th>QK ideal</th><th>QK noisy</th><th>Real HW (PL)</th><th>Real HW (QK)</th></tr>
+</thead>
+<tbody>
+<tr><td>MobileNet-V2</td><td>97.4 ± 0.0</td><td>98.2 ± 0.7</td><td>95.4 ± 3.9</td><td>97.2 ± 1.4</td><td>96.9 ± 1.9</td><td>88.45 ± 1.84</td><td>95.32 ± 0.79</td></tr>
+<tr><td>ResNet-18</td><td>97.9 ± 0.7</td><td>96.4 ± 1.4</td><td>90.3 ± 4.8</td><td>84.4 ± 14.9</td><td>82.6 ± 21.3</td><td>86.32 ± 2.08</td><td>92.15 ± 1.08</td></tr>
+<tr><td>EfficientNet-B0</td><td>97.2 ± 0.6</td><td>96.9 ± 0.7</td><td>96.2 ± 1.6</td><td>96.2 ± 1.8</td><td>95.6 ± 2.7</td><td>68.42 ± 3.05</td><td>74.62 ± 2.35</td></tr>
+<tr><td>RegNet-400MF</td><td>96.9 ± 1.1</td><td>97.7 ± 2.3</td><td>82.1 ± 18.4</td><td>79.5 ± 22.0</td><td>87.4 ± 19.8</td><td>81.24 ± 2.65</td><td>87.43 ± 1.68</td></tr>
+</tbody>
+</table>
+
+<table>
+<caption>Training time (s) on real quantum hardware, Hymenoptera, <code>ibm_torino</code>, 10 epochs, mean ± std over 5 seeds. Source: Table 15.</caption>
+<thead><tr><th>Backbone</th><th>PennyLane</th><th>Qiskit</th></tr></thead>
+<tbody>
+<tr><td>MobileNet-V2</td><td>688 ± 20</td><td>562 ± 13</td></tr>
+<tr><td>ResNet-18</td><td>701 ± 18</td><td>684 ± 17</td></tr>
+<tr><td>EfficientNet-B0</td><td>679 ± 22</td><td>548 ± 15</td></tr>
+<tr><td>RegNet-400MF</td><td>676 ± 16</td><td>508 ± 12</td></tr>
+</tbody>
+</table>
+
+<h2 id="faq">Frequently asked questions</h2>
+<dl class="faq">
+
+<dt>Does quantum transfer learning outperform classical transfer learning?</dt>
+<dd>Not in this benchmark. Across 16 dataset–backbone conditions the Friedman test rejects equivalence of the seven heads (χ²(6) = 40.43, p = 3.75 × 10⁻⁷), but the Nemenyi post-hoc analysis (CD = 2.25) puts the ideal PennyLane quantum head in the <em>same statistical group</em> as the strongest classical heads (MLP-SM and MLP-LG). Ideal quantum heads reach accuracy comparable to classical baselines with a matched parameter count; the paper explicitly states that its statistics do not support a claim of consistent quantum advantage.</dd>
+
+<dt>What is quantum transfer learning?</dt>
+<dd>Quantum transfer learning is a hybrid classical-quantum training scheme in which a pretrained classical network — typically a CNN — is frozen and used as a fixed feature extractor, while a small parametrized quantum circuit (a variational quantum classifier) is trained on the resulting embeddings as the classification head. Because only the quantum head's parameters are trained, the approach fits NISQ-era hardware: in this paper each head uses just four qubits and depth three.</dd>
+
+<dt>How much does noise degrade the quantum heads?</dt>
+<dd>Substantially, and unevenly. Under emulation calibrated on IBM Heron r2 specifications, quantum heads lose accuracy relative to their ideal counterparts — for example PennyLane on RegNet-400MF/Hymenoptera drops from 97.7% ideal to 82.1% noisy, and ResNet-18 from 96.4% to 90.3% — while other combinations are nearly unaffected (EfficientNet-B0: 96.9% → 96.2%). The per-channel decomposition identifies <strong>phase damping</strong> as the channel with the largest aggregate impact, followed by depolarizing and amplitude damping. The degradation is much larger than the loss of the classical baselines.</dd>
+
+<dt>How does it behave on real IBM quantum hardware?</dt>
+<dd>The real-hardware campaign ran on <code>ibm_torino</code>, a 133-qubit IBM Heron r2 processor, using 4 qubits with transpiled circuit depth of about 49, 1024 shots per circuit and dynamical decoupling as error mitigation. Results are reported for Hymenoptera. The Qiskit pipeline is more resilient than the PennyLane pipeline on every backbone, with a consistent gap of 5.8 to 6.9 percentage points (MobileNet-V2: 95.32% vs 88.45%; ResNet-18: 92.15% vs 86.32%; RegNet-400MF: 87.43% vs 81.24%; EfficientNet-B0: 74.62% vs 68.42%). Real-hardware training averages 575 s per run for Qiskit and 686 s for PennyLane, i.e. slower than simulation but still feasible for moderate dataset sizes.</dd>
+
+<dt>Which is faster, PennyLane or Qiskit?</dt>
+<dd>It depends on the execution mode, and the paper reports the crossover explicitly. In <em>ideal simulation</em> PennyLane is faster: on Brain Tumor with ResNet-18, 869.5 ± 51.7 s versus 1098.8 ± 3.7 s for Qiskit, both using the SPSA gradient estimator, so the difference comes from the simulator backend rather than the optimizer. In <em>noisy simulation</em> the ordering flips because Qiskit's <code>AerEstimatorV2</code> runs on the C++ Aer backend: on Hymenoptera with ResNet-18, QK-noisy takes 188.3 ± 14.9 s versus 214.9 ± 1.5 s for QK-ideal, even though the noisy run also samples 1024 shots per evaluation. On <em>real hardware</em> Qiskit is again faster (575 s vs 686 s per run on average). Classical heads, for reference, finish training in under 730 s.</dd>
+
+<dt>Do the circuits suffer from barren plateaus?</dt>
+<dd>The circuits used in the main experiments are 4-qubit, depth-3 variational heads, which sit comfortably below the qubit counts and depths at which barren plateaus typically manifest, so vanishing gradients do not explain the results. The paper nevertheless treats scalability as a separate axis, studying accuracy and gradient behaviour as qubit count and circuit depth grow, and discusses barren plateaus as the main obstacle to extending the approach to wider registers.</dd>
+
+<dt>Is the paper open access, and can the results be reproduced?</dt>
+<dd>Yes. The article is published open access under a Creative Commons Attribution 4.0 International licence (CC BY 4.0) by Tech Science Press, and a preprint is available on arXiv (2603.16973). Both a mirrored PDF and the publisher PDF are freely downloadable; the paper documents the full grid — 4 backbones × 7 heads × 4 datasets × 5 seeds × 3 execution environments — together with the unified hyperparameters (Adam, η = 10⁻³, batch size 16, StepLR), the Heron r2 calibration values and the exact hardware execution configuration.</dd>
+
+<dt>Which datasets and backbones are used?</dt>
+<dd>Four binary image datasets — Hymenoptera (ants vs. bees), Brain Tumor MRI, Cats vs. Dogs, and Solar Dust — chosen to span medical, biological, general-vision and industrial domains with different sample sizes and difficulty. Four ImageNet-pretrained backbones are frozen as feature extractors: ResNet-18, MobileNet-V2, EfficientNet-B0 and RegNet-400MF.</dd>
+</dl>
+
+<h2 id="cite">Cite this paper</h2>
+<pre><code>@article{MartinPerez2026QTL,
+  title   = {Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits},
+  author  = {Mart{\'i}n-P{\'e}rez, Daniel and Rodr{\'i}guez-D{\'i}az, Francesc and
+             Guti{\'e}rrez-Avil{\'e}s, David and Troncoso, Alicia and
+             Mart{\'i}nez-{\'A}lvarez, Francisco},
+  journal = {Computer Modeling in Engineering \&amp; Sciences},
+  volume  = {148},
+  number  = {1},
+  pages   = {26},
+  year    = {2026},
+  doi     = {10.32604/cmes.2026.082712},
+  url     = {https://doi.org/10.32604/cmes.2026.082712}
+}</code></pre>
+<p>BibTeX file: <a href="/files/citeme.bib">citeme.bib</a> · DOI: <a href="https://doi.org/10.32604/cmes.2026.082712">10.32604/cmes.2026.082712</a></p>
+
+<h2 id="links">Where to read it</h2>
+<ul>
+  <li><a href="/files/MartinPerez-2026-Hybrid-Classical-Quantum-Transfer-Learning-CMES.pdf">PDF, mirrored here (CC BY 4.0)</a></li>
+  <li><a href="https://doi.org/10.32604/cmes.2026.082712">Publisher version (DOI)</a> · <a href="https://www.techscience.com/CMES/v148n1/68192.html">full-text HTML</a></li>
+  <li><a href="https://arxiv.org/abs/2603.16973">arXiv:2603.16973</a></li>
+  <li>Indexed in: <a href="https://api.openalex.org/works/doi:10.32604/cmes.2026.082712">OpenAlex</a> · <a href="https://www.semanticscholar.org/paper/d61a27172157199ec104567a33c46afd35ebe1e6">Semantic Scholar</a> · <a href="https://api.crossref.org/works/10.32604/cmes.2026.082712">Crossref</a></li>
+</ul>
+
+<footer>
+<p>© 2026 The Author(s). Published by Tech Science Press. This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. This page is an author-maintained mirror of the article's metadata and key results; the publisher version is the version of record.</p>
+<p>Simulations were run on the Hércules supercomputer (CICA, Junta de Andalucía) under the Agencia Digital de Andalucía (ADA) / ANIA initiative.</p>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://doi.org/10.32604/cmes.2026.082712",
+  "headline": "Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits",
+  "name": "Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits",
+  "url": "https://danimap27.github.io/papers/cmes-082712/",
+  "sameAs": [
+    "https://doi.org/10.32604/cmes.2026.082712",
+    "https://www.techscience.com/CMES/v148n1/68192",
+    "https://arxiv.org/abs/2603.16973",
+    "https://openalex.org/W7168018780"
+  ],
+  "identifier": [
+    {"@type": "PropertyValue", "propertyID": "DOI", "value": "10.32604/cmes.2026.082712"},
+    {"@type": "PropertyValue", "propertyID": "arXiv", "value": "2603.16973"}
+  ],
+  "isPartOf": {
+    "@type": "PublicationIssue",
+    "issueNumber": "1",
+    "isPartOf": {
+      "@type": "Periodical",
+      "name": "Computer Modeling in Engineering & Sciences",
+      "issn": ["1526-1492", "1526-1506"],
+      "publisher": {"@type": "Organization", "name": "Tech Science Press"}
+    }
+  },
+  "author": [
+    {"@type": "Person", "name": "Daniel Martín-Pérez", "identifier": "https://orcid.org/0009-0002-4302-0928",
+     "affiliation": {"@type": "Organization", "name": "Data Science and Big Data Lab, Pablo de Olavide University"}},
+    {"@type": "Person", "name": "Francesc Rodríguez-Díaz",
+     "affiliation": {"@type": "Organization", "name": "Data Science and Big Data Lab, Pablo de Olavide University"}},
+    {"@type": "Person", "name": "David Gutiérrez-Avilés",
+     "affiliation": {"@type": "Organization", "name": "University of Seville"}},
+    {"@type": "Person", "name": "Alicia Troncoso",
+     "affiliation": {"@type": "Organization", "name": "Data Science and Big Data Lab, Pablo de Olavide University"}},
+    {"@type": "Person", "name": "Francisco Martínez-Álvarez",
+     "affiliation": {"@type": "Organization", "name": "Data Science and Big Data Lab, Pablo de Olavide University"}}
+  ],
+  "datePublished": "2026-07-27",
+  "dateCreated": "2026-03-21",
+  "inLanguage": "en",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "isAccessibleForFree": true,
+  "keywords": ["quantum computing", "transfer learning", "hybrid neural networks", "variational circuits", "NISQ", "PennyLane", "Qiskit", "IBM Heron r2", "noise", "barren plateaus"],
+  "about": [
+    {"@type": "Thing", "name": "Quantum machine learning"},
+    {"@type": "Thing", "name": "Transfer learning"},
+    {"@type": "Thing", "name": "Variational quantum circuits"}
+  ],
+  "abstract": "Hybrid classical-quantum architectures have emerged as a practical response to the data and compute demands of modern deep learning. A methodological benchmark for quantum transfer learning is proposed: a common set of frozen pretrained convolutional backbones is coupled to several classical and quantum classification heads, implemented in both PennyLane and Qiskit, and applied to heterogeneous image datasets covering medical, biological, industrial and general-vision domains, in ideal simulation, noise emulation calibrated on IBM Heron r2 and real IBM quantum hardware. Ideal quantum heads reach accuracy statistically comparable to classical baselines of matched parameter count; noisy emulation degrades quantum heads significantly, with phase damping the largest aggregate contributor; on real hardware the Qiskit pipeline is more resilient than the PennyLane pipeline while PennyLane is faster in ideal simulation.",
+  "encoding": {"@type": "MediaObject", "contentUrl": "https://danimap27.github.io/files/MartinPerez-2026-Hybrid-Classical-Quantum-Transfer-Learning-CMES.pdf", "encodingFormat": "application/pdf"},
+  "citation": "Martín-Pérez, D., Rodríguez-Díaz, F., Gutiérrez-Avilés, D., Troncoso, A., Martínez-Álvarez, F. (2026). Hybrid Classical-Quantum Transfer Learning with Noisy Quantum Circuits. Computer Modeling in Engineering & Sciences, 148(1), 26. https://doi.org/10.32604/cmes.2026.082712"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Does quantum transfer learning outperform classical transfer learning?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Not in this benchmark. Across 16 dataset-backbone conditions a Friedman test rejects equivalence of the seven heads (chi2(6) = 40.43, p = 3.75e-7), but the Nemenyi post-hoc analysis (CD = 2.25) places the ideal PennyLane quantum head in the same statistical group as the strongest classical heads. Ideal quantum heads reach accuracy comparable to classical baselines of matched parameter count; the authors explicitly do not claim a consistent quantum advantage."}},
+    {"@type": "Question", "name": "How much does noise degrade quantum heads in classical-quantum transfer learning?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Substantially. Under emulation calibrated on IBM Heron r2 specifications, PennyLane on RegNet-400MF with the Hymenoptera dataset falls from 97.7% ideal accuracy to 82.1% noisy, and ResNet-18 from 96.4% to 90.3%, while EfficientNet-B0 only drops from 96.9% to 96.2%. Per-channel decomposition identifies phase damping as the noise channel with the largest aggregate impact, followed by depolarizing and amplitude damping."}},
+    {"@type": "Question", "name": "How does hybrid quantum transfer learning perform on real IBM quantum hardware?",
+     "acceptedAnswer": {"@type": "Answer", "text": "On ibm_torino (133-qubit IBM Heron r2), using four qubits, transpiled depth of about 49, 1024 shots and dynamical decoupling, Qiskit is more resilient than PennyLane on every backbone with a 5.8 to 6.9 percentage point gap: MobileNet-V2 95.32% vs 88.45%, ResNet-18 92.15% vs 86.32%, RegNet-400MF 87.43% vs 81.24%, EfficientNet-B0 74.62% vs 68.42%. Real-hardware training averages 575 s per run for Qiskit and 686 s for PennyLane."}},
+    {"@type": "Question", "name": "Which framework is faster, PennyLane or Qiskit, for quantum transfer learning?",
+     "acceptedAnswer": {"@type": "Answer", "text": "PennyLane is faster in ideal statevector simulation (869.5 s vs 1098.8 s for Brain Tumor with ResNet-18, same SPSA optimizer). Qiskit is faster in noisy simulation because AerEstimatorV2 runs on the C++ Aer backend (188.3 s vs 214.9 s on Hymenoptera with ResNet-18), and faster on real hardware (575 s vs 686 s average per run)."}},
+    {"@type": "Question", "name": "What is quantum transfer learning?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Quantum transfer learning freezes a pretrained classical network as a fixed feature extractor and trains a small parametrized quantum circuit (a variational quantum classifier) as the classification head on those embeddings. Because only the quantum head is trained, it fits NISQ hardware: the heads in this paper use four qubits and depth three."}}
+  ]
+}
+</script>
+
+</body>
+</html>
